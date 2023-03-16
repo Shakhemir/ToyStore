@@ -9,10 +9,11 @@ import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Main {
-    private static ToyStore kidsWorldStore = new ToyStore(); // магазин игрушек
-    private static Deque<String> toysPrizes = new ArrayDeque<>();  // Список призовых игрушек
+    private static final ToyStore kidsWorldStore = new ToyStore(); // магазин игрушек
+    private static final Stack<String> toysPrizes = new Stack<>();  // Список призовых игрушек
 
     public static void main(String[] args) throws FileNotFoundException {
         caseOne();
@@ -83,7 +84,7 @@ public class Main {
         String textToFile = new String();
         int size = toysPrizes.size();
         for (int i = 0; i < size; i++) {
-            String toyName = toysPrizes.pollLast();
+            String toyName = toysPrizes.pop();
             textToFile += toyName + "\n";
         }
         try {
