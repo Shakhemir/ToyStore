@@ -2,14 +2,19 @@ package ToyGiveaway;
 
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Random;
 
 public class ToyStore {
-    private List<Toy> toys = new ArrayList<Toy>();
+    private ArrayList<Toy> toys;
 
     static Random choice = new Random();
-    private int toysCount = 0;
+    private int toysCount;
+
+    public ToyStore() {
+        this.toys = new ArrayList<Toy>();
+        this.toysCount = 0;
+    }
 
     public void addToy(Toy toy) {
         this.toys.add(toy);
@@ -25,20 +30,36 @@ public class ToyStore {
         return allToysCount;
     }
 
+    public void showToys() {
+        System.out.printf("Всего %d видов игрушек: \n", this.toysCount);
+        int index = 1;
+        for (Toy toy : this.toys) {
+            System.out.printf("%d) %s (%d шт)\n", index++, toy.getName(), toy.getCount());
+        }
+        System.out.println("\n");
+    }
+
     private void updateWeights() {
         int allToysCount = this.getAllToysCount();
-        for (Toy toy : this.toys) {
-            toy.setWeight(100 * toy.getCount() / allToysCount);
+        Iterator<Toy> iterator = this.toys.iterator();
+        while (iterator.hasNext()) {
+            Toy toy = iterator.next();
+            if (toy.getCount() == 0) {
+                iterator.remove();
+                this.toysCount--;
+            } else {
+                toy.setWeight(100 * toy.getCount() / allToysCount);
+            }
         }
     }
 
     public Toy raffle() {
         int index = 0;
-        for (int choice = ToyStore.choice.nextInt(100); index < toysCount; index++) {
-            if (choice < toys.get(index).getWeight()) {
+        for (int choice = ToyStore.choice.nextInt(this.getAllToysCount()); index < this.toysCount; index++) {
+            if (choice < toys.get(index).getCount()) {
                 break;
             }
-            choice -= toys.get(index).getWeight();
+            choice -= toys.get(index).getCount();
         }
         Toy chosenToy = this.toys.get(index).getToy();
         this.updateWeights();

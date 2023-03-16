@@ -15,12 +15,43 @@ public class Main {
     private static Deque<String> toysPrizes = new ArrayDeque<>();  // Список призовых игрушек
 
     public static void main(String[] args) throws FileNotFoundException {
+        caseOne();
+//        caseTwo();
+    }
+
+    private static void caseOne() {
         Toy teddy = new Toy("мишка Тедди", 20);
-        Toy car = new Toy("модель автомобиля", 17);
-        Toy rcCar = new Toy("авто на пульте", 110);
-        Toy babyDoll = new Toy("кукла пупс", 43);
-        Toy lolDoll = new Toy("кукла LOL", 80);
-        Toy helicopter = new Toy("вертолет", 15);
+        Toy car = new Toy("модель автомобиля", 15);
+        Toy rcCar = new Toy("авто на пульте", 55);
+        Toy babyDoll = new Toy("кукла пупс", 40);
+        Toy lolDoll = new Toy("кукла LOL", 28);
+        Toy helicopter = new Toy("вертолет", 12);
+        // заполним магазин игрушками
+        kidsWorldStore.addToy(teddy);
+        kidsWorldStore.addToy(car);
+        kidsWorldStore.addToy(rcCar);
+        kidsWorldStore.addToy(babyDoll);
+        kidsWorldStore.addToy(lolDoll);
+        kidsWorldStore.addToy(helicopter);
+        System.out.println("Добро пожаловать в магазин игрушек «Мир детства»!");
+        System.out.println();
+        System.out.printf("У нас в наличие %d игрушек. \n\n", kidsWorldStore.getAllToysCount());
+//        kidsWorldStore.showToys();
+        raffle(5);
+        savePrizesToFile("toysprizes.txt");
+//        kidsWorldStore.showToys();
+    }
+    private static void caseTwo() {
+//       Для проверки как правильно ли делается выборка усложняем условия.
+//       Общее количество игрушек 16. А разыгрываем 15.
+//       Выводим сколько каких игрушек было до и после розыгрыша
+
+        Toy teddy = new Toy("мишка Тедди", 2);
+        Toy car = new Toy("модель автомобиля", 1);
+        Toy rcCar = new Toy("авто на пульте", 5);
+        Toy babyDoll = new Toy("кукла пупс", 4);
+        Toy lolDoll = new Toy("кукла LOL", 2);
+        Toy helicopter = new Toy("вертолет", 2);
         // заполним магазин игрушками
         kidsWorldStore.addToy(teddy);
         kidsWorldStore.addToy(car);
@@ -31,17 +62,20 @@ public class Main {
         System.out.println("Добро пожаловать в магазин игрушек «Мир детства»!");
         System.out.println();
         System.out.printf("У нас в наличие %d игрушек\n\n", kidsWorldStore.getAllToysCount());
-        raffle(5);
+        kidsWorldStore.showToys();
+        raffle(15);
         savePrizesToFile("toysprizes.txt");
+        kidsWorldStore.showToys();
     }
 
     private static void raffle(int prizesCount) {
-        System.out.printf("Проведем розыгрыш %d игушек\n", prizesCount);
+        System.out.printf("Проведем розыгрыш %d игушек:\n\n", prizesCount);
         for (int i = 0; i < prizesCount; i++) {
             String prize = kidsWorldStore.raffle().getName();
             System.out.printf("Приз №%d: %s\n", i + 1, prize);
             toysPrizes.add(prize);
         }
+        System.out.println();
     }
 
     private static void savePrizesToFile(String fileName) {
@@ -49,10 +83,8 @@ public class Main {
         String textToFile = new String();
         int size = toysPrizes.size();
         for (int i = 0; i < size; i++) {
-//            System.out.printf("%d/%d: ", i, toysPrizes.size());
             String toyName = toysPrizes.pollLast();
             textToFile += toyName + "\n";
-//            System.out.println(toyName);
         }
         try {
             Files.writeString(path, textToFile, StandardCharsets.UTF_8);
