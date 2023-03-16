@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Toy teddy = new Toy("мишка Тедди", 20);
         Toy car = new Toy("модель автомобиля", 17);
-        Toy rcCar = new Toy("авто на пульте", 11);
+        Toy rcCar = new Toy("авто на пульте", 110);
         Toy babyDoll = new Toy("кукла пупс", 43);
         Toy lolDoll = new Toy("кукла LOL", 80);
         Toy helicopter = new Toy("вертолет", 15);
@@ -39,7 +39,7 @@ public class Main {
         System.out.printf("Проведем розыгрыш %d игушек\n", prizesCount);
         for (int i = 0; i < prizesCount; i++) {
             String prize = kidsWorldStore.raffle().getName();
-            System.out.printf("Приз №%d: %s\n", i, prize);
+            System.out.printf("Приз №%d: %s\n", i + 1, prize);
             toysPrizes.add(prize);
         }
     }
@@ -49,10 +49,10 @@ public class Main {
         String textToFile = new String();
         int size = toysPrizes.size();
         for (int i = 0; i < size; i++) {
-            System.out.printf("%d/%d: ", i, toysPrizes.size());
+//            System.out.printf("%d/%d: ", i, toysPrizes.size());
             String toyName = toysPrizes.pollLast();
             textToFile += toyName + "\n";
-            System.out.println(toyName);
+//            System.out.println(toyName);
         }
         try {
             Files.writeString(path, textToFile, StandardCharsets.UTF_8);
